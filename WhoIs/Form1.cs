@@ -16,5 +16,10 @@ namespace WhoIs
         {
             InitializeComponent();
         }
+
+        private void seartchButton_Click(object sender, EventArgs e)
+        {
+            Program.lookUp("whois.verisign-grs.com", addressBox.Text, resultBox);
+        }
     }
 }
