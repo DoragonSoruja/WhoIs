@@ -17,34 +17,36 @@ namespace WhoIs
             resultBox.Clear();
             string TLD = GetTLD(addressBox.Text.ToLower());
             string database = "";
-            switch(TLD)
+
+            StreamReader file = new StreamReader(@"D:\Projects\WhoIs\WhoIs\WhoIs\WhoIs_Server.txt");
+            string line;
+            while ((line = file.ReadLine()) != null)
             {
-                case "org":
-                    database += "whois.pir.org";
-                    break;
-                case "net":
-                    database += "whois.verisign-grs.com";
-                    break;
-                case "com":
-                    database += "whois.verisign-grs.com";
-                    break;
-                case "edu":
-                    database += "whois.educause.net";
-                    break;
-                case "invalid":
-                    return;
-                default:
-                    MessageBox.Show("Unrecognized Top Level Domain");
-                    return;
+                if (line.Substring(0, TLD.Length) == TLD) { database += line; }
             }
-            Program.LookUp(database, addressBox.Text, resultBox);
+
+            string[] TLDServer = database.Split(' ');
+
+            Program.LookUp(TLDServer[1].Trim(), addressBox.Text, resultBox);
+
             if(resultBox.Text.Contains("Registrar WHOIS Server"))
             {
-                string[] information = resultBox.Text.Split(new string[] { ":", "   "}, StringSplitOptions.None);
+                database = "";
+                int colon = 0;
+                foreach(char x in resultBox.Text)
+                {
+                    if(colon == 3)
+                    {
+                        if (x == '\n')
+                            break;
+                        database += x;
+                    }
+
+                    if (x == ':')
+                        colon++;
+                }
                 resultBox.Clear();
-                //resultBox.Text = information[20];
-                //for(int x = 0; x < information.Length; x++){ resultBox.Text += x + " " + information[x] + " "; }
-                Program.LookUp(information[6].Trim(), addressBox.Text, resultBox);
+                Program.LookUp(database.Trim(), addressBox.Text, resultBox);
             }
         }
 

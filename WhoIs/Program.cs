@@ -24,12 +24,20 @@ namespace WhoIs
         
         public static void LookUp(string database, string website, RichTextBox resultLabel)
         {
-            TcpClient client = new TcpClient(database, 43);
-            Stream site = client.GetStream();
-            byte[] domain = Encoding.ASCII.GetBytes(website + "\n");
-            site.Write(domain, 0, website.Length + 1);
-            StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
-            resultLabel.Text = reader.ReadToEnd();
+            try
+            {
+                TcpClient client = new TcpClient(database, 43);
+                Stream site = client.GetStream();
+                byte[] domain = Encoding.ASCII.GetBytes(website + "\n");
+                site.Write(domain, 0, website.Length + 1);
+                StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
+                resultLabel.Text = reader.ReadToEnd();
+            }
+            catch(Exception e)
+            {
+                resultLabel.Clear();
+                MessageBox.Show("An Error has occurred! Either the domain doesn't exist or is denying access.");
+            }
         }
     }
 }
