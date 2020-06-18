@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.IO;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WhoIs
@@ -20,17 +15,53 @@ namespace WhoIs
         public void searchButton_Click(object sender, EventArgs e)
         {
             resultBox.Clear();
-            char[] charArray = addressBox.Text.ToString().ToCharArray();
-            Array.Reverse(charArray);
-            string endName = charArray[2].ToString() + charArray[1].ToString() + charArray[0].ToString();
-            resultBox.Text = endName;
-            //org whois.pir.org
-            //net whois.verisign-grs.com
-            //com whois.verisign-grs.com
-            //edu whois.educause.netS
-            //string database = "whois.verisign-grs.com";
-            //Program.lookUp(database, addressBox.Text, resultBox);
+            string TLD = GetTLD(addressBox.Text.ToLower());
+            string database = "";
+            switch(TLD)
+            {
+                case "org":
+                    database += "whois.pir.org";
+                    break;
+                case "net":
+                    database += "whois.verisign-grs.com";
+                    break;
+                case "com":
+                    database += "whois.verisign-grs.com";
+                    break;
+                case "edu":
+                    database += "whois.educause.net";
+                    break;
+                case "invalid":
+                    return;
+                default:
+                    MessageBox.Show("Unrecognized Top Level Domain");
+                    return;
+            }
+            Program.LookUp(database, addressBox.Text, resultBox);
+            if(resultBox.Text.Contains("Registrar WHOIS Server"))
+            {
+                string[] information = resultBox.Text.Split(new string[] { ":", "   "}, StringSplitOptions.None);
+                resultBox.Clear();
+                //resultBox.Text = information[20];
+                //for(int x = 0; x < information.Length; x++){ resultBox.Text += x + " " + information[x] + " "; }
+                Program.LookUp(information[6].Trim(), addressBox.Text, resultBox);
+            }
         }
+
+        private string GetTLD(string url)
+        {
+            if (url.Contains("."))
+            {
+                string[] urlList = url.Split('.');
+                return urlList[urlList.Length-1];
+            }
+            else
+            {
+                MessageBox.Show("Enter in a valid url");
+                return "invalid";
+            }
+        }
+
 
         private void addressBox_Enter(object sender, EventArgs e)
         {
@@ -57,7 +88,5 @@ namespace WhoIs
                 searchButton_Click(null, null);
             }
         }
-
-        
     }
 }

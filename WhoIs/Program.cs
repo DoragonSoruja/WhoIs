@@ -22,7 +22,7 @@ namespace WhoIs
             Application.Run(new Form1());
         }
         
-        public static void lookUp(string database, string website, TextBox resultLabel)
+        public static void LookUp(string database, string website, RichTextBox resultLabel)
         {
             TcpClient client = new TcpClient(database, 43);
             Stream site = client.GetStream();

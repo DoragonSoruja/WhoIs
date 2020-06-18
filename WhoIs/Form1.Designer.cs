@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.addressBox = new System.Windows.Forms.TextBox();
-            this.resultBox = new System.Windows.Forms.TextBox();
             this.seartchButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.resultBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // addressBox
@@ -44,16 +44,6 @@
             this.addressBox.Enter += new System.EventHandler(this.addressBox_Enter);
             this.addressBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addressBox_KeyDown);
             this.addressBox.Leave += new System.EventHandler(this.addressBox_Leave);
-            // 
-            // resultBox
-            // 
-            this.resultBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultBox.Location = new System.Drawing.Point(12, 93);
-            this.resultBox.Multiline = true;
-            this.resultBox.Name = "resultBox";
-            this.resultBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.resultBox.Size = new System.Drawing.Size(484, 286);
-            this.resultBox.TabIndex = 1;
             // 
             // seartchButton
             // 
@@ -76,14 +66,22 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Domain Name";
             // 
+            // resultBox
+            // 
+            this.resultBox.Location = new System.Drawing.Point(12, 90);
+            this.resultBox.Name = "resultBox";
+            this.resultBox.Size = new System.Drawing.Size(563, 477);
+            this.resultBox.TabIndex = 4;
+            this.resultBox.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 411);
+            this.ClientSize = new System.Drawing.Size(594, 594);
+            this.Controls.Add(this.resultBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.seartchButton);
-            this.Controls.Add(this.resultBox);
             this.Controls.Add(this.addressBox);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -97,9 +95,9 @@
         #endregion
 
         private System.Windows.Forms.TextBox addressBox;
-        private System.Windows.Forms.TextBox resultBox;
         private System.Windows.Forms.Button seartchButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox resultBox;
     }
 }
 
