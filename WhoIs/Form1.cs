@@ -17,7 +17,6 @@ namespace WhoIs
             resultBox.Clear();
             string TLD = GetTLD(addressBox.Text.ToLower());
             string database = "";
-            Console.WriteLine(Directory.GetCurrentDirectory());
             StreamReader file = new StreamReader(Directory.GetCurrentDirectory() + @"\WhoIs_Server.txt");
             string line;
             while ((line = file.ReadLine()) != null)
