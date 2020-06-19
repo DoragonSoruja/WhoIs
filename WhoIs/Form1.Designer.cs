@@ -42,7 +42,6 @@
             this.addressBox.Size = new System.Drawing.Size(272, 21);
             this.addressBox.TabIndex = 0;
             this.addressBox.Enter += new System.EventHandler(this.addressBox_Enter);
-            this.addressBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addressBox_KeyDown);
             this.addressBox.Leave += new System.EventHandler(this.addressBox_Leave);
             // 
             // seartchButton
@@ -76,6 +75,7 @@
             // 
             // Form1
             // 
+            this.AcceptButton = this.seartchButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 594);

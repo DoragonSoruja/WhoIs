@@ -18,7 +18,7 @@ namespace WhoIs
             string TLD = GetTLD(addressBox.Text.ToLower());
             string database = "";
 
-            StreamReader file = new StreamReader(@"D:\Projects\WhoIs\WhoIs\WhoIs\WhoIs_Server.txt");
+            StreamReader file = new StreamReader(Directory.GetCurrentDirectory() + @"\WhoIs_Server.txt");
             string line;
             while ((line = file.ReadLine()) != null)
             {
@@ -94,14 +94,6 @@ namespace WhoIs
             {
                 addressBox.Text = "Ex: google.com";
                 addressBox.ForeColor = Color.Silver;
-            }
-        }
-
-        private void addressBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Enter)
-            {
-                searchButton_Click(null, null);
             }
         }
     }
