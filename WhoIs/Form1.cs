@@ -27,7 +27,14 @@ namespace WhoIs
 
             string[] TLDServer = database.Split(' ');
 
-            Program.LookUp(TLDServer[1].Trim(), addressBox.Text, resultBox);
+            try
+            {
+                Program.LookUp(TLDServer[1].Trim(), addressBox.Text, resultBox);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("This program doesn't support TLD: " + TLD);
+            }
 
             if(resultBox.Text.Contains("Registrar WHOIS Server"))
             {
@@ -55,7 +62,14 @@ namespace WhoIs
             if (url.Contains("."))
             {
                 string[] urlList = url.Split('.');
-                return urlList[urlList.Length-1];
+                if (urlList.Length > 2)
+                {
+                    return urlList[urlList.Length - 2] + '.' + urlList[urlList.Length - 1];
+                }
+                else
+                {
+                    return urlList[urlList.Length - 1];
+                }
             }
             else
             {

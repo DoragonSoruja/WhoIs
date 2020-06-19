@@ -85,6 +85,7 @@
             this.Controls.Add(this.addressBox);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "WhoIs";
             this.ResumeLayout(false);

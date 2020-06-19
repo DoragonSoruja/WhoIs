@@ -33,7 +33,7 @@ namespace WhoIs
                 StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
                 resultLabel.Text = reader.ReadToEnd();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 resultLabel.Clear();
                 MessageBox.Show("An Error has occurred! Either the domain doesn't exist or is denying access.");
