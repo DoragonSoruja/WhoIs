@@ -2,6 +2,8 @@
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Net.Sockets;
+using System.Text;
 
 namespace WhoIs
 {
@@ -15,24 +17,45 @@ namespace WhoIs
         public void searchButton_Click(object sender, EventArgs e)
         {
             resultBox.Clear();
-            string TLD = GetTLD(addressBox.Text.ToLower());
-            string database = "";
-            StreamReader file = new StreamReader(Directory.GetCurrentDirectory() + @"\WhoIs_Server.txt");
-            string line;
-            while ((line = file.ReadLine()) != null)
-            {
-                if (line.Substring(0, TLD.Length) == TLD) { database += line; }
-            }
+            string database = "whois.iana.org";
 
-            string[] TLDServer = database.Split(' ');
+            TcpClient client = new TcpClient(database, 43);
+            Stream site = client.GetStream();
+            byte[] domain = Encoding.ASCII.GetBytes(addressBox.Text + "\n");
+            site.Write(domain, 0, addressBox.Text.Length + 1);
+            StreamReader reader = new StreamReader(client.GetStream(), Encoding.ASCII);
+
+            bool startWriting = false;
+            database = "";
+            int counter = 0;
+
+            foreach (char x in reader.ReadToEnd())
+            {
+                if (startWriting == true && counter == 2)
+                {
+                    if (x == '\n')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        database += x;
+                    }
+                }
+                if (x == ':')
+                {
+                    startWriting = true;
+                    counter++;
+                }
+            }
 
             try
             {
-                Program.LookUp(TLDServer[1].Trim(), addressBox.Text, resultBox);
+                Program.LookUp(database.Trim(), addressBox.Text, resultBox);
             }
             catch(Exception)
             {
-                MessageBox.Show("This program doesn't support TLD: " + TLD);
+                MessageBox.Show("This program doesn't support that TLD");
             }
 
             if(resultBox.Text.Contains("Registrar WHOIS Server"))
@@ -55,28 +78,6 @@ namespace WhoIs
                 Program.LookUp(database.Trim(), addressBox.Text, resultBox);
             }
         }
-
-        private string GetTLD(string url)
-        {
-            if (url.Contains("."))
-            {
-                string[] urlList = url.Split('.');
-                if (urlList.Length > 2)
-                {
-                    return urlList[urlList.Length - 2] + '.' + urlList[urlList.Length - 1];
-                }
-                else
-                {
-                    return urlList[urlList.Length - 1];
-                }
-            }
-            else
-            {
-                MessageBox.Show("Enter in a valid url");
-                return "invalid";
-            }
-        }
-
 
         private void addressBox_Enter(object sender, EventArgs e)
         {
